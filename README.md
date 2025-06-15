@@ -1,5 +1,5 @@
-# android app pickup sampah using java with firebase
-app help mitigate trash become piled up and enhance efficiency of pickup trash
+# pickup sampah using java with firebase
+android app help mitigate trash become piled up and enhance efficiency of pickup trash
 
 ## PROGRESS
 - [ ] login and signup
