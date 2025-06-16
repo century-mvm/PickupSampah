@@ -2,7 +2,7 @@
 android app help mitigate trash become piled up and enhance efficiency of pickup trash . the app works by user/customer capturing gps data , camera sensor and some description if needed  . the pickup/driver will be notify how many and where trash located so pickup routes can be more efficient. and hopefully this app can mitigate trash that being trown into river.  
 
 ## PROGRESS
-- [ ] login and signup
+- [x] login and signup
 - [ ] maps
 - [ ] chat
 - [ ] camera
