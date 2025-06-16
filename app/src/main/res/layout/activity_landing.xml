@@ -22,7 +22,7 @@
     <Button
         android:id="@+id/GotoLgn"
         android:layout_width="117dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginStart="147dp"
         android:layout_marginEnd="147dp"
         android:text="Login"
@@ -37,7 +37,7 @@
     <Button
         android:id="@+id/GotoReg"
         android:layout_width="113dp"
-        android:layout_height="44dp"
+        android:layout_height="48dp"
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
