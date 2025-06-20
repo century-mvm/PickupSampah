@@ -6,6 +6,7 @@ android app help mitigate trash become piled up and enhance efficiency of pickup
 - [ ] maps
 - [ ] chat
 - [ ] camera
+- [ ] request pickup
 - [ ] notification if not connected to internet
 - [ ] interface responsive
 
