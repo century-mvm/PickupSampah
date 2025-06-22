@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "926357863860",
+    "project_id": "pickupsampah-k4",
+    "storage_bucket": "pickupsampah-k4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926357863860:android:da61c927cb38a61ed346e1",
+        "android_client_info": {
+          "package_name": "com.example.pickupsampah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvtujZVKr8JIokcG4rQEFXBDdoBn2idBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

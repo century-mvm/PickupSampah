@@ -34,11 +34,15 @@ android {
 
 dependencies {
 
+    implementation (libs.cloudinary.android)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

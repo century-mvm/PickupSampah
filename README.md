@@ -3,9 +3,11 @@ android app help mitigate trash become piled up and enhance efficiency of pickup
 
 ## PROGRESS
 - [x] login and signup
-- [ ] maps
-- [x] chat
-- [ ] camera
+- [x] maps
+- [ ] chat
+- [x] camera
+- [x] request pickup
+- [x] trash marker (with image and description) 
 - [ ] notification if not connected to internet
 - [ ] interface responsive
 
