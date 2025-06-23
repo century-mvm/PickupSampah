@@ -7,7 +7,7 @@ android app help mitigate trash become piled up and enhance efficiency of pickup
 - [x] camera
 - [x] request pickup
 - [x] trash marker (with image and description) 
-- [ ] notification if not connected to internet
+- [x] notification if not connected to internet
 - [ ] interface responsive
 
 ## Kriteria Aplikasi

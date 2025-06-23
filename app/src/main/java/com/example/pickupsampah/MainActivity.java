@@ -1,6 +1,7 @@
 package com.example.pickupsampah;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends BaseActivity implements OnMapReadyCallback {
 
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buttonRequest = findViewById(R.id.btn_request);
         profileImage = findViewById(R.id.profile_image);
         btnNotification = findViewById(R.id.btn_notification);
-        btnChat = findViewById(R.id.chatButton);
 
         txtUserdetails.setText(user.getEmail());
 
@@ -98,10 +99,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnNotification.setOnClickListener(v ->
                 Toast.makeText(this, "Notifications clicked", Toast.LENGTH_SHORT).show());
 
-        // Chat button action
-        btnChat.setOnClickListener(v ->
-                Toast.makeText(this, "Chat clicked", Toast.LENGTH_SHORT).show());
-
         // Map init
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_fragment);
@@ -116,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
     }
+
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {

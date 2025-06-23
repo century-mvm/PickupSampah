@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 
-public class PickupRequestActivity extends AppCompatActivity {
+public class PickupRequestActivity extends BaseActivity {
 
     private EditText inputDesc;
     private ImageView previewImage;

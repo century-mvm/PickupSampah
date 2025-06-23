@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LandingActivity extends AppCompatActivity {
+public class LandingActivity extends BaseActivity {
 
     private Button loginButton, registerButton;
     private FirebaseAuth mAuth;

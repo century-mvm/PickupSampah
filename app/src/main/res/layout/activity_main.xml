@@ -96,16 +96,4 @@
         android:textStyle="bold" />
 
     <!-- Chat Button -->
-    <ImageButton
-        android:id="@+id/chatButton"
-        android:layout_width="50dp"
-        android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:background="@drawable/circle_bg"
-        android:backgroundTint="#FFFFFF"
-        android:contentDescription="button Chat"
-        android:src="@drawable/ic_launcher_foreground"
-        map:tint="#F20000" />
 </RelativeLayout>

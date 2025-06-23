@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.*;
 
-public class FullscreenMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class FullscreenMapActivity extends BaseActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static final int LOCATION_CODE = 200;
