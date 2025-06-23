@@ -101,7 +101,7 @@ public class PickupRequestActivity extends AppCompatActivity {
 
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, out);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
         byte[] imageBytes = out.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }

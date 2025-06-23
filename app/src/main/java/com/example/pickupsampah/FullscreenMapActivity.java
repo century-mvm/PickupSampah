@@ -124,6 +124,7 @@ public class FullscreenMapActivity extends AppCompatActivity implements OnMapRea
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Detail Pickup");
 
+        // Gambar
         ImageView imageView = new ImageView(this);
         Bitmap imageBitmap = base64ToBitmap(order.getImageBase64());
         imageView.setImageBitmap(imageBitmap);
@@ -131,21 +132,64 @@ public class FullscreenMapActivity extends AppCompatActivity implements OnMapRea
         imageView.setMaxHeight(600);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        TextView textView = new TextView(this);
-        textView.setText(order.getDescription());
-        textView.setPadding(0, 20, 0, 0);
+        // Deskripsi
+        TextView descView = new TextView(this);
+        descView.setText("Deskripsi: " + order.getDescription());
+        descView.setPadding(0, 20, 0, 0);
 
+        // Format timestamp
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMMM yyyy HH:mm", java.util.Locale.getDefault());
+        String formattedTime = sdf.format(new java.util.Date(order.getTimestamp()));
+
+        // Waktu Submit
+        TextView timeView = new TextView(this);
+        timeView.setText("Waktu Submit: " + formattedTime);
+        timeView.setPadding(0, 10, 0, 0);
+
+        // Layout
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(50, 40, 50, 40);
         layout.addView(imageView);
-        layout.addView(textView);
+        layout.addView(descView);
+        layout.addView(timeView); // <== Tambahkan di sini
 
         builder.setView(layout);
+
         builder.setPositiveButton("Tutup", null);
+        builder.setNegativeButton("Hapus Pickup", (dialog, which) -> deletePickupOrder(order));
+
         builder.show();
     }
 
+
+    private void deletePickupOrder(PickupOrder order) {
+        pickupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    PickupOrder current = child.getValue(PickupOrder.class);
+                    if (current != null &&
+                            current.getLatitude() == order.getLatitude() &&
+                            current.getLongitude() == order.getLongitude() &&
+                            current.getDescription().equals(order.getDescription())) {
+
+                        child.getRef().removeValue()
+                                .addOnSuccessListener(aVoid ->
+                                        Toast.makeText(FullscreenMapActivity.this, "Pickup berhasil dihapus", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e ->
+                                        Toast.makeText(FullscreenMapActivity.this, "Gagal menghapus pickup", Toast.LENGTH_SHORT).show());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(FullscreenMapActivity.this, "Gagal mengakses database", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private Bitmap base64ToBitmap(String base64) {
         byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

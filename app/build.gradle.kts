@@ -34,7 +34,6 @@ android {
 
 dependencies {
 
-    implementation (libs.cloudinary.android)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.appcompat)
