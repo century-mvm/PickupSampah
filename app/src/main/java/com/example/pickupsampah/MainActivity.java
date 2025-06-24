@@ -243,11 +243,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
         builder.setView(layout);
 
         builder.setPositiveButton("Tutup", null);
-        builder.setNegativeButton("Hapus Pickup", (dialog, which) -> deletePickupOrder(order));
+        builder.setNegativeButton("Hapus", (dialog, which) -> deletePickupOrder(order));
 
         builder.show();
     }
-
 
     private void deletePickupOrder(PickupOrder order) {
         pickupRef.addListenerForSingleValueEvent(new ValueEventListener() {
