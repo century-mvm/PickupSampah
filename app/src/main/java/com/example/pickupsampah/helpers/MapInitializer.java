@@ -72,7 +72,7 @@ public class MapInitializer {
                     PickupOrder order = orderSnap.getValue(PickupOrder.class);
                     if (order != null) {
                         LatLng lokasi = new LatLng(order.getLatitude(), order.getLongitude());
-                        BitmapDescriptor icon = getBitmapFromVector(activity, R.drawable.ic_trash_bin, 100, 100); // Ubah ukurannya di sini
+                        BitmapDescriptor icon = getBitmapFromVector(activity, R.drawable.ic_trash_bin); // Ubah ukurannya di sini
 
                         Marker marker = map.addMarker(new MarkerOptions()
                                 .position(lokasi)
@@ -105,14 +105,14 @@ public class MapInitializer {
             return false;
         });
     }
-    private static BitmapDescriptor getBitmapFromVector(Context context, int vectorResId, int width, int height) {
+    private static BitmapDescriptor getBitmapFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         if (vectorDrawable == null) {
             throw new IllegalArgumentException("Resource not found: " + vectorResId);
         }
 
         // Buat ukuran sesuai yang diminta (lebar x tinggi)
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         vectorDrawable.draw(canvas);
