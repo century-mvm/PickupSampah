@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
@@ -43,11 +45,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
             return insets;
         });
 
-        View mapOverlay = findViewById(R.id.map_overlay);
-        mapOverlay.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FullscreenMapActivity.class);
-            startActivity(intent);
-        });
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -57,14 +54,15 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
         }
 
         TextView txtUserdetails = findViewById(R.id.userDetails);
-        Button buttonLogout = findViewById(R.id.LgtBtn);
+        ImageButton buttonLogout = findViewById(R.id.LogoutBtn);
         Button buttonRequest = findViewById(R.id.btn_request);
+        ImageButton buttonMap = findViewById(R.id.btn_fullsize_map);
+
 
         assert user != null;
         txtUserdetails.setText(user.getEmail());
 
         buttonLogout.setOnClickListener(v -> {
-
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), LandingActivity.class));
             finish();
@@ -81,6 +79,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
+        buttonMap.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, FullscreenMapActivity.class);
+            startActivity(intent);
+        });
         // Request lokasi jika belum diberikan
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -88,6 +90,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
     }
+
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {

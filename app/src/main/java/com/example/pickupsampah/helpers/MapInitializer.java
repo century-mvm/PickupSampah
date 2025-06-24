@@ -32,6 +32,7 @@ public class MapInitializer {
             @NonNull GoogleMap map,
             @NonNull DatabaseReference pickupRef
     ) {
+
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
         map.getUiSettings().setCompassEnabled(true);
