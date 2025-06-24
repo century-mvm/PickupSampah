@@ -2,13 +2,19 @@ package com.example.pickupsampah.helpers;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.pickupsampah.PickupOrder;
+import com.example.pickupsampah.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -61,13 +67,18 @@ public class MapInitializer {
                 map.clear();
                 map.addMarker(new MarkerOptions().position(widyatama).title("Universitas Widyatama"));
 
+
                 for (DataSnapshot orderSnap : snapshot.getChildren()) {
                     PickupOrder order = orderSnap.getValue(PickupOrder.class);
                     if (order != null) {
                         LatLng lokasi = new LatLng(order.getLatitude(), order.getLongitude());
+                        BitmapDescriptor icon = getBitmapFromVector(activity, R.drawable.ic_trash_bin);
+
                         Marker marker = map.addMarker(new MarkerOptions()
                                 .position(lokasi)
-                                .title("Klik untuk lihat deskripsi"));
+                                .title("Klik untuk lihat deskripsi")
+                                .icon(icon));
+
                         if (marker != null) {
                             marker.setTag(order);
                         }
@@ -77,8 +88,9 @@ public class MapInitializer {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     Toast.makeText(activity, "Gagal memuat data pickup.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -91,7 +103,21 @@ public class MapInitializer {
             }
             return false;
         });
-
     }
 
+    private static BitmapDescriptor getBitmapFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        if (vectorDrawable == null) {
+            throw new IllegalArgumentException("Resource not found: " + vectorResId);
+        }
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(
+                vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888
+        );
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
 }
