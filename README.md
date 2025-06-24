@@ -1,6 +1,9 @@
 # pickup sampah using java with firebase
 android app help mitigate trash become piled up and enhance efficiency of pickup trash . the app works by user/customer capturing gps data , camera sensor and some description if needed  . the pickup/driver will be notify how many and where trash located so pickup routes can be more efficient. and hopefully this app can mitigate trash that being trown into river.  
 
+At the root of the project (same level as build.gradle.kts), create a file named local.properties and add the following:
+```MAPS_API_KEY=your_google_maps_api_key```
+
 ## PROGRESS
 - [x] login and signup
 - [x] maps
