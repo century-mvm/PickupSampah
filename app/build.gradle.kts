@@ -4,6 +4,14 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
 }
+val localPropertiesFile = rootProject.file("local.properties")
+val exampleFile = rootProject.file("local.properties.example")
+
+if (!localPropertiesFile.exists()) {
+    logger.warn("local.properties not found, copying from local.properties.example")
+    exampleFile.copyTo(localPropertiesFile)
+}
+
 val properties = Properties()
 properties.load(rootProject.file("local.properties").inputStream())
 val MAPS_API_KEY = properties.getProperty("MAPS_API_KEY")
