@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -127,5 +128,10 @@ public class PickupRequestActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "Izin lokasi ditolak", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void callMainActivity(View view) {
+        Intent intent = new Intent(PickupRequestActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

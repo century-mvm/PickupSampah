@@ -1,3 +1,68 @@
 <resources>
     <string name="app_name">PickupSampah</string>
+    <!--welcome,login,signup activity-->
+    <string name="login">Login</string>
+    <string name="signUp">SignUp</string>
+    <string name="OR">OR</string>
+    <string name="enter_username">Username</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_password">Password</string>
+    <string name="welcome_heading">Request a Cleaner\nAnytime, Anywhere.</string>
+    <string name="welcome_tag_line">Your step to a cleaner world.</string>
+    <string name="login_message">welcome back!\nglad to see you, \nagain!</string>
+    <string name="signup_message">one step\naway from joining!</string>
+    <string name="back_button">Back Button</string>
+    <string name="already_have_account">Sudah punya akun? Login di sini</string>
+    <string name="dont_have_account">Belum punya akun? Daftar di sini</string>
+
+    <!-- Main Activity -->
+    <string name="greeting_morning">Selamat Pagi!</string>
+    <string name="greeting_afternoon">Selamat Siang!</string>
+    <string name="greeting_evening">Selamat Malam!</string>
+    <string name="greeting_night">Selamat Malam!</string>
+
+    <string name="btn_request_pickup">Request</string>
+    <string name="expandmap">Expand\nmap</string>
+    <string name="active_request">Active Request</string>
+    <string name="recent_activity">Recent Activity</string>
+    <string name="see_all">View All</string>
+    <string name="your_points">Total Poin</string>
+    <string name="waste_saved">Sampah yang Diangkut</string>
+    <string name="daily_tips">Tips hari ini</string>
+    <string name="service_status">Status Layanan</string>
+    <string name="service_active">Layanan Aktif • 07:00 - 17:00</string>
+    <string name="service_area">Area Layanan: Jakarta, Bandung, Depok, Tangerang, Bekasi</string>
+
+    <string name="logout">Log Out</string>
+
+    <!--dummy-->
+    <string name="notif">3</string>
+    <string name="nama">jamal</string>
+    <string name="lokasi">Jln.Cikutra</string>
+    <string name="estimasi">Estimasi tiba: 15 menit</string>
+    <string name="poin">250</string>
+    <string name="berat">12.5 kg</string>
+
+    <!-- Status Messages -->
+    <string name="status_waiting">Menunggu Penjemputan</string>
+    <string name="status_on_way">On The Way</string>
+    <string name="status_arrived">Petugas Telah Tiba</string>
+    <string name="status_completed">Selesai</string>
+    <string name="estimated_arrival">Estimasi tiba: %1$s menit</string>
+
+    <!-- Sample Tips -->
+    <string name="tip_1">Pisahkan sampah organik dan non-organik untuk memudahkan daur ulang</string>
+    <string name="tip_2">Cuci bersih kemasan plastik sebelum dibuang untuk meningkatkan kualitas daur ulang</string>
+    <string name="tip_3">Sampah elektronik memerlukan penanganan khusus, jangan dicampur dengan sampah biasa</string>
+    <string name="tip_4">Gunakan kantong yang mudah terurai untuk sampah organik</string>
+    <string name="tip_5">Kertas dan kardus harus dalam kondisi kering saat dijemput</string>
+
+    <!--pickupRequest-->
+    <string name="fotosampah">Foto Sampah</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="isideskripsi">Jelaskan jenis sampah, perkiraan berat, dan lokasi pickup...</string>
+    <string name="maksimalteks">0/500</string>
+    <string name="foto">Ambil Foto</string>
+    <string name="kirimrequest">Kirim Request</string>
+
 </resources>
