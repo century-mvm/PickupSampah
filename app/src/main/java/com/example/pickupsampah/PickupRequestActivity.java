@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -114,5 +115,10 @@ public class PickupRequestActivity extends BaseActivity {
             previewImage.setImageBitmap(capturedImage);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    public void callMainActivity(View view) {
+        Intent intent = new Intent(PickupRequestActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

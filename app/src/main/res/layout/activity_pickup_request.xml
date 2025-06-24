@@ -6,32 +6,185 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".PickupRequestActivity"
-    android:padding="16dp">
+    android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/image_preview"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
-        android:background="#CCC" />
-
-    <EditText
-        android:id="@+id/edit_description"
-        android:hint="Deskripsi sampah..."
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/btn_camera"
-        android:text="Ambil Foto"
+    <!-- Header with subtle shadow effect -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="24dp"
+        android:elevation="2dp"
+        android:background="@color/white">
 
-    <Button
-        android:id="@+id/btn_submit"
-        android:text="Kirim Pickup"
+        <ImageView
+            android:id="@+id/btn_back"
+            android:onClick="callMainActivity"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/back_button"
+            android:src="@drawable/back_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/biruTua"
+            android:gravity="center"
+            android:layout_marginEnd="32dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/fotosampah"
+                    android:textColor="@color/biruTua"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:id="@+id/photo_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:id="@+id/image_preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:background="#CCC" />
+
+                    <LinearLayout
+                        android:id="@+id/photo_placeholder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deskripsi"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/biruTua"
+                    android:layout_marginBottom="12dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:hint="@string/isideskripsi"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:padding="16dp"
+                        android:background="@drawable/edittext"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="#99999999"
+                        android:lineSpacingExtra="2dp"
+                        android:scrollbars="vertical" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/char_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/maksimalteks"
+                    android:textSize="12sp"
+                    android:textColor="#99999999" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+        android:orientation="horizontal"
+        android:padding="24dp"
+        android:background="@color/white"
+        android:elevation="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_camera"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            android:layout_marginEnd="12dp"
+            android:text="@string/foto"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/biruMuda"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            android:layout_marginStart="12dp"
+            android:text="@string/kirimrequest"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/biruTua" />
+
+    </LinearLayout>
 </LinearLayout>

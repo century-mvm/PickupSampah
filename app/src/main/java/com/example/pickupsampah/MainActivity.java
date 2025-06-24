@@ -48,8 +48,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
 
     private TextView txtUserdetails;
     private ImageView profileImage;
-    private ImageButton btnNotification, btnChat;
-    private Button buttonLogout, buttonRequest;
+    private ImageButton buttonLogout;
+    private Button buttonRequest;
 
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_CODE = 100;
@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
         txtUserdetails = findViewById(R.id.userDetails);
         buttonLogout = findViewById(R.id.LgtBtn);
         buttonRequest = findViewById(R.id.btn_request);
-        profileImage = findViewById(R.id.profile_image);
+        //profileImage = findViewById(R.id.profile_image);
 
         txtUserdetails.setText(user.getEmail());
 
@@ -243,11 +243,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
         builder.setView(layout);
 
         builder.setPositiveButton("Tutup", null);
-        builder.setNegativeButton("Hapus Pickup", (dialog, which) -> deletePickupOrder(order));
+        builder.setNegativeButton("Hapus", (dialog, which) -> deletePickupOrder(order));
 
         builder.show();
     }
-
 
     private void deletePickupOrder(PickupOrder order) {
         pickupRef.addListenerForSingleValueEvent(new ValueEventListener() {

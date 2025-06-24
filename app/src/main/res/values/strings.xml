@@ -22,6 +22,7 @@
     <string name="greeting_night">Selamat Malam!</string>
 
     <string name="btn_request_pickup">Request</string>
+    <string name="expandmap">Expand\nmap</string>
     <string name="active_request">Active Request</string>
     <string name="recent_activity">Recent Activity</string>
     <string name="see_all">View All</string>
@@ -33,6 +34,14 @@
     <string name="service_area">Area Layanan: Jakarta, Bandung, Depok, Tangerang, Bekasi</string>
 
     <string name="logout">Log Out</string>
+
+    <!--dummy-->
+    <string name="notif">3</string>
+    <string name="nama">jamal</string>
+    <string name="lokasi">Jln.Cikutra</string>
+    <string name="estimasi">Estimasi tiba: 15 menit</string>
+    <string name="poin">250</string>
+    <string name="berat">12.5 kg</string>
 
     <!-- Status Messages -->
     <string name="status_waiting">Menunggu Penjemputan</string>
@@ -47,4 +56,13 @@
     <string name="tip_3">Sampah elektronik memerlukan penanganan khusus, jangan dicampur dengan sampah biasa</string>
     <string name="tip_4">Gunakan kantong yang mudah terurai untuk sampah organik</string>
     <string name="tip_5">Kertas dan kardus harus dalam kondisi kering saat dijemput</string>
+
+    <!--pickupRequest-->
+    <string name="fotosampah">Foto Sampah</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="isideskripsi">Jelaskan jenis sampah, perkiraan berat, dan lokasi pickup...</string>
+    <string name="maksimalteks">0/500</string>
+    <string name="foto">Ambil Foto</string>
+    <string name="kirimrequest">Kirim Request</string>
+
 </resources>
