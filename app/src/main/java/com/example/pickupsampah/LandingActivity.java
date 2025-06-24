@@ -9,12 +9,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.pickupsampah.helpers.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LandingActivity extends BaseActivity {
 
-    private Button loginButton, registerButton;
     private FirebaseAuth mAuth;
 // Initialize Firebase Auth
 
@@ -37,8 +37,8 @@ public class LandingActivity extends BaseActivity {
         setContentView(R.layout.activity_landing);
 
         mAuth = FirebaseAuth.getInstance();
-        loginButton = findViewById(R.id.GotoLgn);
-        registerButton = findViewById(R.id.GotoReg);
+        Button loginButton = findViewById(R.id.GotoLgn);
+        Button registerButton = findViewById(R.id.GotoReg);
 
         loginButton.setOnClickListener(v -> goToLogin());
         registerButton.setOnClickListener(v -> goToRegister());

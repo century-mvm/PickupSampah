@@ -5,8 +5,9 @@ public class PickupOrder {
     private double longitude;
     private String description;
     private String imageBase64;
-    private long timestamp;
+    private final long timestamp;
 
+    @SuppressWarnings("unused")
     public PickupOrder() {
         this.timestamp = System.currentTimeMillis();
     }

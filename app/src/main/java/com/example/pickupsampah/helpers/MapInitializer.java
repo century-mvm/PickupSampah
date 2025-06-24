@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.*;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
 public class MapInitializer {
@@ -76,7 +77,8 @@ public class MapInitializer {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(activity, "Gagal memuat data pickup.", Toast.LENGTH_SHORT).show();
+                if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                    Toast.makeText(activity, "Gagal memuat data pickup.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -89,5 +91,7 @@ public class MapInitializer {
             }
             return false;
         });
+
     }
+
 }

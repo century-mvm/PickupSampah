@@ -16,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.pickupsampah.helpers.BaseActivity;
 import com.example.pickupsampah.helpers.MapInitializer;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,24 +27,16 @@ import com.google.firebase.database.*;
 
 public class MainActivity extends BaseActivity implements OnMapReadyCallback {
 
-    private FirebaseAuth auth;
-    private FirebaseUser user;
-
-    private TextView txtUserdetails;
-    private Button buttonLogout, buttonRequest;
-
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_CODE = 100;
     private final DatabaseReference pickupRef = FirebaseDatabase.getInstance(
             "https://pickupsampah-k4-default-rtdb.asia-southeast1.firebasedatabase.app"
     ).getReference("pickup_orders");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -56,20 +49,22 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
             startActivity(intent);
         });
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(getApplicationContext(), LandingActivity.class));
             finish();
         }
 
-        txtUserdetails = findViewById(R.id.userDetails);
-        buttonLogout = findViewById(R.id.LgtBtn);
-        buttonRequest = findViewById(R.id.btn_request);
+        TextView txtUserdetails = findViewById(R.id.userDetails);
+        Button buttonLogout = findViewById(R.id.LgtBtn);
+        Button buttonRequest = findViewById(R.id.btn_request);
 
+        assert user != null;
         txtUserdetails.setText(user.getEmail());
 
         buttonLogout.setOnClickListener(v -> {
+
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), LandingActivity.class));
             finish();

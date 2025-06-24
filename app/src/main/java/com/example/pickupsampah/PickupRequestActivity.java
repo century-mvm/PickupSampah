@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -14,10 +13,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.pickupsampah.helpers.BaseActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DatabaseReference;
@@ -29,18 +29,24 @@ public class PickupRequestActivity extends BaseActivity {
 
     private EditText inputDesc;
     private ImageView previewImage;
-    private Button btnSubmit, btnCamera;
-
     private Bitmap capturedImage;
     private double latitude = 0.0, longitude = 0.0;
 
     private FusedLocationProviderClient locationClient;
-    private static final int CAMERA_REQUEST = 101;
+    private DatabaseReference pickupRef;
 
-    DatabaseReference pickupRef = FirebaseDatabase.getInstance(
-            "https://pickupsampah-k4-default-rtdb.asia-southeast1.firebasedatabase.app"
-    ).getReference("pickup_orders");
-
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Bundle extras = result.getData().getExtras();
+                    if (extras != null) {
+                        capturedImage = (Bitmap) extras.get("data");
+                        previewImage.setImageBitmap(capturedImage);
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +55,21 @@ public class PickupRequestActivity extends BaseActivity {
 
         inputDesc = findViewById(R.id.edit_description);
         previewImage = findViewById(R.id.image_preview);
-        btnCamera = findViewById(R.id.btn_camera);
-        btnSubmit = findViewById(R.id.btn_submit);
+        Button btnCamera = findViewById(R.id.btn_camera);
+        Button btnSubmit = findViewById(R.id.btn_submit);
 
         locationClient = LocationServices.getFusedLocationProviderClient(this);
+        pickupRef = FirebaseDatabase.getInstance(
+                "https://pickupsampah-k4-default-rtdb.asia-southeast1.firebasedatabase.app"
+        ).getReference("pickup_orders");
 
-        // Ambil lokasi saat ini
         getCurrentLocation();
 
-        // Ambil foto
         btnCamera.setOnClickListener(v -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, CAMERA_REQUEST);
+            cameraLauncher.launch(intent);
         });
 
-        // Submit request
         btnSubmit.setOnClickListener(v -> {
             if (capturedImage == null || latitude == 0.0 || longitude == 0.0) {
                 Toast.makeText(this, "Isi semua data & ambil gambar", Toast.LENGTH_SHORT).show();
@@ -86,8 +92,11 @@ public class PickupRequestActivity extends BaseActivity {
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    200
+            );
             return;
         }
 
@@ -106,13 +115,17 @@ public class PickupRequestActivity extends BaseActivity {
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
-    // Hasil dari kamera
+    // Optional: Handle permission result if you want full control
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            capturedImage = (Bitmap) data.getExtras().get("data");
-            previewImage.setImageBitmap(capturedImage);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults); // ✅ Add this line
+
+        if (requestCode == 200 && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        } else {
+            Toast.makeText(this, "Izin lokasi ditolak", Toast.LENGTH_SHORT).show();
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
