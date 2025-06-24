@@ -86,4 +86,13 @@ public class RegisterActivity extends BaseActivity {
 
         });
     }
+    public void callLandingActivity(View view) {
+        Intent intent = new Intent(RegisterActivity.this, LandingActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    public void goToLogin(View view) {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }

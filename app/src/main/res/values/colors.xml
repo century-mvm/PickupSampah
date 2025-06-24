@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="biruMuda">#2271e3</color>
+    <color name="biruTua">#003f7f</color>
+    <color name="tip_background">#F0F7FF</color>
+
 </resources>
