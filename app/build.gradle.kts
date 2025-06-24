@@ -6,7 +6,9 @@ plugins {
 }
 val properties = Properties()
 properties.load(rootProject.file("local.properties").inputStream())
-val MAPS_API_KEY = properties["MAPS_API_KEY"] as String
+val MAPS_API_KEY = properties.getProperty("MAPS_API_KEY")
+    ?: throw GradleException("Missing MAPS_API_KEY in local.properties")
+
 android {
     namespace = "com.example.pickupsampah"
     compileSdk = 35
