@@ -3,6 +3,7 @@ android app help mitigate trash become piled up and enhance efficiency of pickup
 
 ### Setup
 Tambahkan `GOOGLE_MAPS_API_KEY` di local.properties :
+
 ```MAPS_API_KEY=your_google_maps_api_key```
 
 ## PROGRESS
