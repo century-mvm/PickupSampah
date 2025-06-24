@@ -56,9 +56,10 @@ public class FullscreenMapActivity extends BaseActivity implements OnMapReadyCal
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
 
-        // Marker tetap: Widyatama
-        LatLng widyatama = new LatLng(-6.901200, 107.618000);
+        // Marker Widyatama,
+        LatLng widyatama = new LatLng(-6.8978533091074095, 107.64539057116501);
         mMap.addMarker(new MarkerOptions().position(widyatama).title("Universitas Widyatama"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(widyatama, 16));
 
@@ -70,7 +71,6 @@ public class FullscreenMapActivity extends BaseActivity implements OnMapReadyCal
             fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
                 if (location != null) {
                     LatLng userLoc = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(userLoc).title("Lokasi Anda"));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 17));
                 }
             });
@@ -108,13 +108,13 @@ public class FullscreenMapActivity extends BaseActivity implements OnMapReadyCal
             }
         });
 
-        // Klik marker untuk lihat detail
+        // Melihat Detail
         mMap.setOnMarkerClickListener(marker -> {
             Object tag = marker.getTag();
             if (tag instanceof PickupOrder) {
                 PickupOrder order = (PickupOrder) tag;
                 showDetailDialog(order);
-                return true; // Cegah info bawaan tampil
+                return true;
             }
             return false;
         });
@@ -124,7 +124,7 @@ public class FullscreenMapActivity extends BaseActivity implements OnMapReadyCal
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Detail Pickup");
 
-        // Gambar
+        // Konversi base64 ke image
         ImageView imageView = new ImageView(this);
         Bitmap imageBitmap = base64ToBitmap(order.getImageBase64());
         imageView.setImageBitmap(imageBitmap);
@@ -132,36 +132,31 @@ public class FullscreenMapActivity extends BaseActivity implements OnMapReadyCal
         imageView.setMaxHeight(600);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        // Deskripsi
         TextView descView = new TextView(this);
         descView.setText("Deskripsi: " + order.getDescription());
         descView.setPadding(0, 20, 0, 0);
 
-        // Format timestamp
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMMM yyyy HH:mm", java.util.Locale.getDefault());
         String formattedTime = sdf.format(new java.util.Date(order.getTimestamp()));
 
-        // Waktu Submit
         TextView timeView = new TextView(this);
         timeView.setText("Waktu Submit: " + formattedTime);
         timeView.setPadding(0, 10, 0, 0);
 
-        // Layout
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(50, 40, 50, 40);
         layout.addView(imageView);
         layout.addView(descView);
-        layout.addView(timeView); // <== Tambahkan di sini
+        layout.addView(timeView);
 
         builder.setView(layout);
 
         builder.setPositiveButton("Tutup", null);
-        builder.setNegativeButton("Hapus Pickup", (dialog, which) -> deletePickupOrder(order));
+        builder.setNegativeButton("Hapus ", (dialog, which) -> deletePickupOrder(order));
 
         builder.show();
     }
-
 
     private void deletePickupOrder(PickupOrder order) {
         pickupRef.addListenerForSingleValueEvent(new ValueEventListener() {

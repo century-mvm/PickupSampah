@@ -5,14 +5,12 @@ public class PickupOrder {
     private double longitude;
     private String description;
     private String imageBase64;
-    private long timestamp; // Tambahan timestamp
+    private long timestamp;
 
-    // 1. Constructor kosong WAJIB ADA untuk Firebase
     public PickupOrder() {
         this.timestamp = System.currentTimeMillis();
     }
 
-    // 2. Constructor dengan parameter
     public PickupOrder(double latitude, double longitude, String description, String imageBase64) {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -21,7 +19,6 @@ public class PickupOrder {
         this.timestamp = System.currentTimeMillis();
     }
 
-    // 3. Getter methods (WAJIB)
     public double getLatitude() { return latitude; }
     public double getLongitude() { return longitude; }
     public String getDescription() { return description; }

@@ -1,19 +1,23 @@
 package com.example.pickupsampah;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
@@ -27,9 +31,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends BaseActivity implements OnMapReadyCallback {
 
@@ -43,6 +53,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_CODE = 100;
+    private final DatabaseReference pickupRef = FirebaseDatabase.getInstance(
+            "https://pickupsampah-k4-default-rtdb.asia-southeast1.firebasedatabase.app"
+    ).getReference("pickup_orders");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +93,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
         buttonLogout = findViewById(R.id.LgtBtn);
         buttonRequest = findViewById(R.id.btn_request);
         profileImage = findViewById(R.id.profile_image);
-        btnNotification = findViewById(R.id.btn_notification);
 
         txtUserdetails.setText(user.getEmail());
 
@@ -95,9 +108,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
             startActivity(intent);
         });
 
-        // Notification button action
-        btnNotification.setOnClickListener(v ->
-                Toast.makeText(this, "Notifications clicked", Toast.LENGTH_SHORT).show());
 
         // Map init
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -125,7 +135,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
         mMap.getUiSettings().setCompassEnabled(true);
 
         // Lokasi default: Widyatama
-        LatLng widyatama = new LatLng(-6.901200, 107.618000);
+        LatLng widyatama = new LatLng(-6.8978533091074095, 107.64539057116501);
         mMap.addMarker(new MarkerOptions()
                 .position(widyatama)
                 .title("Universitas Widyatama"));
@@ -137,17 +147,15 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
 
             mMap.setMyLocationEnabled(true);
 
-            // Dapatkan lokasi terakhir dan pindahkan kamera
+            // Dapatkan lokasi terakhir dan pindahkan maps
             FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
             fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
                 if (location != null) {
                     LatLng userLoc = new LatLng(location.getLatitude(), location.getLongitude());
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 17));
-                    mMap.addMarker(new MarkerOptions().position(userLoc).title("Lokasi Anda"));
                 }
             });
         } else {
-            // Minta izin jika belum diberikan
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
@@ -157,8 +165,122 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback {
             Intent intent = new Intent(MainActivity.this, FullscreenMapActivity.class);
             startActivity(intent);
         });
+
+        pickupRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mMap.clear();
+
+                // Tambahkan ulang marker statis
+                mMap.addMarker(new MarkerOptions().position(widyatama).title("Universitas Widyatama"));
+
+                for (DataSnapshot orderSnap : snapshot.getChildren()) {
+                    PickupOrder order = orderSnap.getValue(PickupOrder.class);
+                    if (order != null) {
+                        LatLng lokasi = new LatLng(order.getLatitude(), order.getLongitude());
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                                .position(lokasi)
+                                .title("Klik untuk lihat deskripsi"));
+                        if (marker != null) {
+                            marker.setTag(order);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Gagal memuat data pickup.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Lihat Detail
+        mMap.setOnMarkerClickListener(marker -> {
+            Object tag = marker.getTag();
+            if (tag instanceof PickupOrder) {
+                PickupOrder order = (PickupOrder) tag;
+                showDetailDialog(order);
+                return true;
+            }
+            return false;
+        });
     }
 
+    private void showDetailDialog(PickupOrder order) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Detail Pickup");
+
+        // Gambar
+        ImageView imageView = new ImageView(this);
+        Bitmap imageBitmap = base64ToBitmap(order.getImageBase64());
+        imageView.setImageBitmap(imageBitmap);
+        imageView.setAdjustViewBounds(true);
+        imageView.setMaxHeight(600);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // Deskripsi
+        TextView descView = new TextView(this);
+        descView.setText("Deskripsi: " + order.getDescription());
+        descView.setPadding(0, 20, 0, 0);
+
+        // Format timestamp
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMMM yyyy HH:mm", java.util.Locale.getDefault());
+        String formattedTime = sdf.format(new java.util.Date(order.getTimestamp()));
+
+        // Waktu Submit
+        TextView timeView = new TextView(this);
+        timeView.setText("Waktu Submit: " + formattedTime);
+        timeView.setPadding(0, 10, 0, 0);
+
+        // Layout
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 40);
+        layout.addView(imageView);
+        layout.addView(descView);
+        layout.addView(timeView);
+
+        builder.setView(layout);
+
+        builder.setPositiveButton("Tutup", null);
+        builder.setNegativeButton("Hapus Pickup", (dialog, which) -> deletePickupOrder(order));
+
+        builder.show();
+    }
+
+
+    private void deletePickupOrder(PickupOrder order) {
+        pickupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    PickupOrder current = child.getValue(PickupOrder.class);
+                    if (current != null &&
+                            current.getLatitude() == order.getLatitude() &&
+                            current.getLongitude() == order.getLongitude() &&
+                            current.getDescription().equals(order.getDescription())) {
+
+                        child.getRef().removeValue()
+                                .addOnSuccessListener(aVoid ->
+                                        Toast.makeText(MainActivity.this, "Pickup berhasil dihapus", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e ->
+                                        Toast.makeText(MainActivity.this, "Gagal menghapus pickup", Toast.LENGTH_SHORT).show());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Gagal mengakses database", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private Bitmap base64ToBitmap(String base64) {
+        byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
 
     // Handle permission result
     @Override
