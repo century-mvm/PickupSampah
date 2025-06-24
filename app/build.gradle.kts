@@ -1,8 +1,12 @@
+
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
 }
-
+val properties = Properties()
+properties.load(rootProject.file("local.properties").inputStream())
+val MAPS_API_KEY = properties["MAPS_API_KEY"] as String
 android {
     namespace = "com.example.pickupsampah"
     compileSdk = 35
@@ -13,9 +17,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        resValue("string", "google_maps_key", MAPS_API_KEY)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
