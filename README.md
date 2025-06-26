@@ -13,7 +13,7 @@ Tambahkan `GOOGLE_MAPS_API_KEY` di local.properties :
 - [x] request pickup
 - [x] trash marker (with image and description)
 - [x] notification if not connected to internet
-- [ ] interface responsive
+- [x] interface responsive
 
 ## Kriteria Aplikasi
 1. User Authentication & Data Persistence
